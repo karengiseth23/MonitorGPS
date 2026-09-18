@@ -1,0 +1,22 @@
+<button
+  type="button"
+  class="theme-button"
+  [attr.aria-label]="isDark ? 'Activar modo claro' : 'Activar modo oscuro'"
+  [attr.aria-pressed]="isDark"
+  (click)="toggleTheme()"
+>
+
+  @if (isDark) {
+    <i
+      class="fi fi-rr-sun"
+      aria-hidden="true"
+    ></i>
+  } @else {
+    <i
+      class="fi fi-rr-moon"
+      aria-hidden="true"
+    ></i>
+  }
+
+
+</button>

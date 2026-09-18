@@ -1,0 +1,294 @@
+/* =========================================
+   ERROR STATE / SERVICE TOAST
+   ========================================= */
+
+:host {
+  position: fixed;
+
+  top: 24px;
+  right: 24px;
+
+  z-index: 1000;
+
+  display: block;
+
+  width: min(
+    420px,
+    calc(100vw - 32px)
+  );
+
+  pointer-events: none;
+}
+
+
+/* =========================================
+   TOAST
+   ========================================= */
+
+.error-state {
+  position: relative;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 14px;
+
+  width: 100%;
+
+  padding: 16px;
+
+  background: var(--color-surface, #ffffff);
+
+  border: 1px solid
+    var(--color-border, #d9dce5);
+
+  border-left: 4px solid
+    var(--color-error, #dc2626);
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 10px 30px rgb(0 0 0 / 12%);
+
+  pointer-events: auto;
+
+  animation:
+    error-state-enter
+    240ms
+    ease-out;
+}
+
+
+/* =========================================
+   TYPES
+   ========================================= */
+
+.error-state.toast-error {
+  border-left-color:
+    var(--color-error, #dc2626);
+}
+
+.error-state.toast-warning {
+  border-left-color:
+    var(--color-warning, #d97706);
+}
+
+.error-state.toast-success {
+  border-left-color:
+    var(--color-success, #16a34a);
+}
+
+.error-state.toast-info {
+  border-left-color:
+    var(--color-info, #2563eb);
+}
+
+
+/* =========================================
+   ICON
+   ========================================= */
+
+.error-icon {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
+  font-size: 18px;
+}
+
+
+.toast-error .error-icon {
+  color:
+    var(--color-error, #dc2626);
+
+  background:
+    rgb(220 38 38 / 10%);
+}
+
+.toast-warning .error-icon {
+  color:
+    var(--color-warning, #d97706);
+
+  background:
+    rgb(217 119 6 / 10%);
+}
+
+.toast-success .error-icon {
+  color:
+    var(--color-success, #16a34a);
+
+  background:
+    rgb(22 163 74 / 10%);
+}
+
+.toast-info .error-icon {
+  color:
+    var(--color-info, #2563eb);
+
+  background:
+    rgb(37 99 235 / 10%);
+}
+
+
+/* =========================================
+   CONTENT
+   ========================================= */
+
+.error-content {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.error-title {
+  display: block;
+
+  margin: 0 0 4px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  line-height: 1.4;
+}
+
+.error-message {
+  margin: 0;
+
+  color:
+    var(--color-text-secondary, #5f6472);
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================
+   CLOSE BUTTON
+   ========================================= */
+
+.error-close {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  padding: 0;
+
+  color:
+    var(--color-text-secondary, #5f6472);
+
+  background: transparent;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+.error-close:hover {
+  background:
+    rgb(0 0 0 / 6%);
+}
+
+.error-close:focus-visible {
+  outline: 3px solid
+    var(--color-focus, #4f46e5);
+
+  outline-offset: 2px;
+}
+
+.error-close i {
+  font-size: 18px;
+}
+
+
+/* =========================================
+   ANIMATION
+   ========================================= */
+
+@keyframes error-state-enter {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translateX(40px)
+      scale(0.96);
+  }
+
+  60% {
+    opacity: 1;
+
+    transform:
+      translateX(-8px)
+      scale(1.01);
+  }
+
+  80% {
+    transform:
+      translateX(4px)
+      scale(0.995);
+  }
+
+  92% {
+    transform:
+      translateX(-2px)
+      scale(1);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translateX(0)
+      scale(1);
+  }
+
+}
+
+
+/* =========================================
+   REDUCED MOTION
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .error-state {
+    animation: none;
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 640px) {
+
+  :host {
+    top: 16px;
+    right: 16px;
+    left: 16px;
+
+    width: auto;
+  }
+
+  .error-state {
+    padding: 14px;
+  }
+
+}

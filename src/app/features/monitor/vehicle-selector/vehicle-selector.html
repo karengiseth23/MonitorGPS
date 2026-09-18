@@ -1,0 +1,397 @@
+
+<div
+  class="vehicle-selector"
+  (document:click)="onDocumentClick($event)"
+>
+
+  @if (isLoading) {
+
+    <div
+      class="selector-skeleton"
+      aria-hidden="true"
+    >
+
+      <span class="skeleton-icon"></span>
+
+      <span class="skeleton-lines">
+
+        <span></span>
+
+        <span></span>
+
+      </span>
+
+      <span class="skeleton-control"></span>
+
+    </div>
+
+
+    <span
+      class="sr-only"
+      aria-live="polite"
+    >
+      Cargando vehículos
+    </span>
+
+  }
+
+  @else if (hasError) {
+
+    <div
+      class="selector-error"
+      role="alert"
+    >
+
+      <div
+        class="state-icon error-icon"
+        aria-hidden="true"
+      >
+        <i class="fi fi-rr-triangle-warning"></i>
+      </div>
+
+
+      <div class="state-content">
+
+        <strong>
+          No pudimos cargar los vehículos
+        </strong>
+
+        <p>
+          Verifica la conexión e inténtalo nuevamente.
+        </p>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="retry-button"
+        (click)="loadDevices()"
+      >
+        Reintentar
+      </button>
+
+    </div>
+
+  }
+
+  @else if (devices.length === 0) {
+
+    <div
+      class="selector-empty"
+      role="status"
+    >
+
+      <div
+        class="state-icon"
+        aria-hidden="true"
+      >
+        <i class="fi fi-rr-car"></i>
+      </div>
+
+
+      <div class="state-content">
+
+        <strong>
+          No hay vehículos disponibles
+        </strong>
+
+        <p>
+          No encontramos dispositivos asociados a esta cuenta.
+        </p>
+
+      </div>
+
+    </div>
+
+  }
+
+  @else {
+
+    <div class="select-wrapper">
+      <div class="select-content">
+
+        <span
+          class="select-label"
+          id="vehicle-select-label"
+        >
+          Seleccione un Vehículo *
+        </span>
+
+
+        <div
+          class="vehicle-combobox"
+          [class.is-open]="isOpen"
+        >
+          <button
+            type="button"
+            id="vehicle-combobox"
+            class="combobox-trigger"
+            [attr.aria-expanded]="isOpen"
+            aria-haspopup="listbox"
+            aria-labelledby="vehicle-select-label"
+            aria-controls="vehicle-options"
+            (click)="toggleDropdown()"
+          >
+
+            <span class="selected-vehicle">
+
+              @if (selectedDevice) {
+
+                <span class="selected-name">
+                  {{ selectedDevice.name }}
+                </span>
+
+                <span class="selected-id">
+                  ID {{ selectedDevice.id }}
+                </span>
+
+              } @else {
+
+                <span class="placeholder">
+                  Seleccionar vehículo
+                </span>
+
+              }
+
+            </span>
+
+
+            <span
+              class="combobox-arrow"
+              aria-hidden="true"
+            >
+              <i class="fi fi-rr-angle-small-down"></i>
+            </span>
+
+          </button>
+
+
+          @if (isOpen) {
+
+            <div
+              class="combobox-dropdown"
+            >
+
+              <!-- Búsqueda -->
+              <div class="search-container">
+
+                <label
+                  for="vehicle-search"
+                  class="sr-only"
+                >
+                  Buscar vehículo por nombre o ID
+                </label>
+
+
+                <div
+                  class="search-input-wrapper"
+                >
+
+                  <i
+                    class="fi fi-rr-search search-icon"
+                    aria-hidden="true"
+                  ></i>
+
+
+                  <input
+                    #searchInput
+                    id="vehicle-search"
+                    type="search"
+                    class="vehicle-search"
+                    placeholder="Buscar vehículo o ID..."
+                    autocomplete="off"
+                    role="combobox"
+                    aria-autocomplete="list"
+                    [attr.aria-expanded]="true"
+                    aria-controls="vehicle-options"
+                    [attr.aria-activedescendant]="
+                      getActiveOptionId()
+                    "
+                    [value]="searchTerm"
+                    (input)="
+                      searchTerm =
+                        $any($event.target).value;
+                      onSearch()
+                    "
+                    (keydown)="onSearchKeydown($event)"
+                  />
+
+                </div>
+
+              </div>
+
+
+              <!-- Resultados -->
+              <div
+                id="vehicle-options"
+                class="vehicle-options"
+                role="listbox"
+                aria-label="Vehículos disponibles"
+              >
+
+                @if (
+                  filteredDevices.length === 0
+                ) {
+
+                  <div
+                    class="no-results"
+                    role="status"
+                  >
+
+                    <div
+                      class="no-results-icon"
+                      aria-hidden="true"
+                    >
+                      <i class="fi fi-rr-search"></i>
+                    </div>
+
+                    <strong>
+                      No encontramos vehículos
+                    </strong>
+
+                    <span>
+                      Prueba con otro nombre o ID.
+                    </span>
+
+                  </div>
+
+                }
+
+                @else {
+
+                  @for (
+                    device of filteredDevices;
+                    track device.id;
+                    let index = $index
+                  ) {
+
+                    <button
+                      type="button"
+                      class="vehicle-option"
+                      [class.is-active]="
+                        index === activeIndex
+                      "
+                      [class.is-selected]="
+                        device.id === selectedDeviceId
+                      "
+                      [id]="getOptionId(device)"
+                      role="option"
+                      [attr.aria-selected]="
+                        device.id === selectedDeviceId
+                      "
+                      (mouseenter)="
+                        activeIndex = index
+                      "
+                      (mousedown)="$event.preventDefault()"
+                      (click)="selectDevice(device)"
+                    >
+
+                      <span
+                        class="option-icon"
+                        aria-hidden="true"
+                      >
+                        <i class="fi fi-rr-car"></i>
+                      </span>
+
+
+                      <span
+                        class="option-content"
+                      >
+
+                        <span
+                          class="option-name"
+                        >
+                          {{ device.name }}
+                        </span>
+
+                        <span
+                          class="option-meta"
+                        >
+                          ID {{ device.id }}
+                          ·
+                          {{ device.uniqueId }}
+                        </span>
+
+                      </span>
+
+
+                      <span
+                        class="option-status"
+                        [class]="
+                          getDeviceStatusClass(device)
+                        "
+                      >
+
+                        <span
+                          class="status-dot"
+                          aria-hidden="true"
+                        ></span>
+
+                        <span>
+                          {{ getDeviceStatus(device) }}
+                        </span>
+
+                      </span>
+
+
+                      @if (
+                        device.id === selectedDeviceId
+                      ) {
+
+                        <span
+                          class="selected-check"
+                          aria-hidden="true"
+                        >
+                          <i class="fi fi-rr-check"></i>
+                        </span>
+
+                      }
+
+                    </button>
+
+                  }
+
+                }
+
+              </div>
+
+
+              <!-- Ayuda de teclado -->
+              <div
+                class="combobox-footer"
+                aria-hidden="true"
+              >
+
+                <span>
+                  <kbd>↑</kbd>
+                  <kbd>↓</kbd>
+                  navegar
+                </span>
+
+                <span>
+                  <kbd>Enter</kbd>
+                  seleccionar
+                </span>
+
+                <span>
+                  <kbd>Esc</kbd>
+                  cerrar
+                </span>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>
+

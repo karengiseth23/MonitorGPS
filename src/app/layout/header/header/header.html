@@ -1,0 +1,168 @@
+
+<header class="app-header">
+  <div class="header-container">
+
+    <!-- BRAND -->
+    <a
+      class="brand"
+      routerLink="/monitor"
+      aria-label="Traccar Monitor - Monitoreo"
+    >
+      <span class="brand-mark" aria-hidden="true">T</span>
+
+      <span class="brand-content">
+        <span class="brand-name">Traccar</span>
+        <span class="brand-label">Monitor</span>
+      </span>
+    </a>
+
+
+    <!-- USUARIO -->
+    @if (currentUser(); as user) {
+
+      <div class="header-right">
+
+        <div class="user-menu">
+
+          <!-- TRIGGER -->
+          <button
+            type="button"
+            class="user-menu-trigger"
+            [attr.aria-expanded]="dropdownOpen()"
+            aria-haspopup="menu"
+            aria-controls="user-menu-dropdown"
+            (click)="toggleDropdown()"
+          >
+
+            <span
+              class="user-avatar"
+              aria-hidden="true"
+            >
+              {{ user.email.charAt(0).toUpperCase() }}
+            </span>
+
+            <span class="header-user-info">
+
+              <span class="user-greeting">
+                Hola,
+              </span>
+
+              <strong class="header-user-name">
+                {{ user.name || user.email }}
+              </strong>
+
+            </span>
+
+            <i
+              class="fi fi-rr-angle-small-down user-menu-arrow"
+              [class.user-menu-arrow--open]="dropdownOpen()"
+              aria-hidden="true"
+            ></i>
+
+          </button>
+
+
+          <!-- DROPDOWN -->
+          @if (dropdownOpen()) {
+
+            <div
+              id="user-menu-dropdown"
+              class="user-dropdown"
+              role="menu"
+              aria-label="Opciones de usuario"
+            >
+
+              <!-- INFORMACIÓN DEL USUARIO -->
+              <div class="user-dropdown-header">
+
+                <span
+                  class="user-dropdown-avatar"
+                  aria-hidden="true"
+                >
+                  {{ user.email.charAt(0).toUpperCase() }}
+                </span>
+
+                <div class="user-dropdown-info">
+
+                  <strong>
+                    {{ user.name || 'Usuario' }}
+                  </strong>
+
+                  <span>
+                    {{ user.email }}
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div
+                class="user-dropdown-divider"
+                role="separator"
+              ></div>
+
+
+              <!-- APARIENCIA -->
+              <div class="user-dropdown-theme">
+
+                <div class="user-dropdown-item-label">
+
+                  <i
+                    class="fi fi-rr-brightness"
+                    aria-hidden="true"
+                  ></i>
+
+                  <span>
+                    Apariencia
+                  </span>
+
+                </div>
+
+                <app-theme-toggle />
+
+              </div>
+
+
+              <div
+                class="user-dropdown-divider"
+                role="separator"
+              ></div>
+
+
+              <!-- CERRAR SESIÓN -->
+              <button
+                type="button"
+                class="user-dropdown-logout"
+                (click)="logout()"
+              >
+
+                <i
+                  class="fi fi-rr-sign-out-alt"
+                  aria-hidden="true"
+                ></i>
+
+                <span>
+                  Cerrar sesión
+                </span>
+
+              </button>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    } @else {
+
+      <div class="header-actions">
+        <app-theme-toggle />
+      </div>
+
+    }
+
+  </div>
+</header>

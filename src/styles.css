@@ -1,3 +1,208 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
+@import '@flaticon/flaticon-uicons/css/regular/rounded.css';
+@import '@flaticon/flaticon-uicons/css/bold/rounded.css';
+@import '@flaticon/flaticon-uicons/css/solid/rounded.css';
 
 @import 'tailwindcss';
+
+/* =========================================
+   DESIGN TOKENS — LIGHT THEME
+   ========================================= */
+
+:root {
+  color-scheme: light;
+
+  --color-primary: #6d4aff;
+  --color-primary-hover: #5938e8;
+  --color-primary-soft: rgb(109 74 255 / 10%);
+
+  --color-background: #f5f7fb;
+  --color-surface: #ffffff;
+  --color-surface-secondary: #f8f9fd;
+  --color-surface-hover: #f1f3f9;
+
+  --color-text: #111827;
+  --color-text-secondary: #374151;
+  --color-text-muted: #6b7280;
+
+  --color-border: #e5e7eb;
+  --color-border-hover: #d1d5db;
+
+  --color-success: #16a34a;
+  --color-success-soft: rgb(22 163 74 / 10%);
+
+  --color-warning: #d97706;
+  --color-warning-soft: rgb(217 119 6 / 10%);
+
+  --color-danger: #dc2626;
+  --color-danger-soft: rgb(220 38 38 / 10%);
+
+  --color-info: #2563eb;
+  --color-info-soft: rgb(37 99 235 / 10%);
+
+  --shadow-sm: 0 2px 8px rgb(15 23 42 / 6%);
+  --shadow-md: 0 8px 30px rgb(15 23 42 / 10%);
+  --shadow-lg: 0 20px 50px rgb(15 23 42 / 14%);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  
+  --color-focus: #000000;
+  --color-focus-inner: #ffffff;
+}
+
+/* =========================================
+   DARK THEME
+   ========================================= */
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-primary: #8b6cff;
+  --color-primary-hover: #7655f5;
+  --color-primary-soft: rgb(139 108 255 / 12%);
+
+  --color-background: #080d1a;
+  --color-surface: #101827;
+  --color-surface-secondary: #141e30;
+  --color-surface-hover: #1b273b;
+
+  --color-text: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+
+  --color-border: #263248;
+  --color-border-hover: #394762;
+
+  --color-success: #22c55e;
+  --color-success-soft: rgb(34 197 94 / 12%);
+
+  --color-warning: #f59e0b;
+  --color-warning-soft: rgb(245 158 11 / 12%);
+
+  --color-danger: #ef4444;
+  --color-danger-soft: rgb(239 68 68 / 12%);
+
+  --color-info: #60a5fa;
+  --color-info-soft: rgb(96 165 250 / 12%);
+
+  --shadow-sm: 0 2px 8px rgb(0 0 0 / 20%);
+  --shadow-md: 0 8px 30px rgb(0 0 0 / 25%);
+  --shadow-lg: 0 20px 50px rgb(0 0 0 / 35%);
+
+  --color-focus: #ffffff;
+  --color-focus-inner: #080d1a;
+
+  .battery-metric.battery-low {
+      border-color: rgb(239 68 68 / 30%);
+    }
+
+    .battery-metric.battery-low .battery-icon {
+      background: rgb(239 68 68 / 12%);
+    }
+
+    .battery-metric.battery-medium {
+      border-color: rgb(245 158 11 / 30%);
+    }
+
+    .battery-metric.battery-medium .battery-icon {
+      background: rgb(245 158 11 / 12%);
+    }
+
+    .battery-metric.battery-high {
+      border-color: rgb(34 197 94 / 30%);
+    }
+
+    .battery-metric.battery-high .battery-icon {
+      background: rgb(34 197 94 / 12%);
+    }
+}
+
+/* =========================================
+   GLOBAL
+   ========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--color-background);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background: var(--color-background);
+  color: var(--color-text);
+
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+
+::selection {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+/* =========================================================
+   GLOBAL KEYBOARD FOCUS
+   ========================================================= */
+
+.focus-ring:focus-visible,
+button:focus,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 1px var(--color-focus-inner);
+}
+
+input[type="search"]:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 1px var(--color-focus-inner);
+}
+/* =========================================
+   REDUCED MOTION
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

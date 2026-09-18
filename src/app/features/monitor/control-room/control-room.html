@@ -1,0 +1,658 @@
+<section class="control-room">
+
+  <header class="control-room-header">
+
+    <div class="header-content">
+
+      <span class="eyebrow">
+        MONITOREO EN TIEMPO REAL
+      </span>
+
+      <h1>
+        Control de vehículos
+      </h1>
+
+      <p>
+        Consulta la ubicación y el estado de tus vehículos
+        desde un solo lugar.
+      </p>
+
+    </div>
+
+  </header>
+
+  <section class="vehicle-selection">
+
+    <app-vehicle-selector
+      (deviceSelected)="onDeviceSelected($event)"
+    />
+
+  </section>
+
+  <section
+    class="monitoring-area"
+    aria-label="Área de monitoreo"
+  >
+
+    <!-- =======================================
+         TARJETA DE ESTADO DEL VEHÍCULO
+         ======================================= -->
+
+    <article
+      class="vehicle-status"
+    >
+      <!-- =====================================
+           SKELETON
+           ===================================== -->
+
+      @if (isPositionLoading()) {
+
+        <div
+          class="loading-message"
+          role="status"
+          aria-live="polite"
+        >
+
+          <span
+            class="loading-dot"
+            aria-hidden="true"
+          ></span>
+
+          <span>
+            Cargando información del vehículo…
+          </span>
+
+        </div>
+
+
+        <div
+          class="status-skeleton"
+          aria-hidden="true"
+        >
+
+          <!-- Identidad -->
+
+          <div class="skeleton-status-top">
+
+            <span
+              class="skeleton skeleton-vehicle-icon"
+            ></span>
+
+            <div class="skeleton-identity">
+
+              <span
+                class="skeleton skeleton-label"
+              ></span>
+
+              <span
+                class="skeleton skeleton-title"
+              ></span>
+
+              <span
+                class="skeleton skeleton-id"
+              ></span>
+
+            </div>
+
+          </div>
+
+
+          <!-- Estado -->
+
+          <div
+            class="skeleton skeleton-connection"
+          ></div>
+
+
+          <!-- Métricas -->
+
+          <div class="skeleton-metrics">
+
+            <!-- Velocidad -->
+
+            <div class="skeleton-metric">
+
+              <span
+                class="skeleton skeleton-metric-icon"
+              ></span>
+
+              <div class="skeleton-metric-content">
+
+                <span
+                  class="skeleton skeleton-metric-label"
+                ></span>
+
+                <span
+                  class="skeleton skeleton-metric-value"
+                ></span>
+
+              </div>
+
+            </div>
+
+
+            <!-- Batería -->
+
+            <div class="skeleton-metric">
+
+              <span
+                class="skeleton skeleton-metric-icon"
+              ></span>
+
+              <div class="skeleton-metric-content">
+
+                <span
+                  class="skeleton skeleton-metric-label"
+                ></span>
+
+                <span
+                  class="skeleton skeleton-metric-value"
+                ></span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Detalles -->
+
+          <div class="skeleton-details">
+
+            <div class="skeleton-detail-row">
+
+              <span
+                class="skeleton skeleton-detail-label"
+              ></span>
+
+              <span
+                class="skeleton skeleton-detail-value"
+              ></span>
+
+            </div>
+
+
+            <div class="skeleton-detail-row">
+
+              <span
+                class="skeleton skeleton-detail-label"
+              ></span>
+
+              <span
+                class="skeleton skeleton-detail-value"
+              ></span>
+
+            </div>
+
+
+            <div class="skeleton-detail-row">
+
+              <span
+                class="skeleton skeleton-detail-label"
+              ></span>
+
+              <span
+                class="skeleton skeleton-detail-value"
+              ></span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+      <!-- =====================================
+           ERROR
+           ===================================== -->
+
+      } @else if (positionError()) {
+
+        <div
+          class="status-error"
+          role="alert"
+        >
+
+          <div
+            class="status-icon status-icon-error"
+            aria-hidden="true"
+          >
+
+            <i class="fi fi-rr-triangle-warning"></i>
+
+          </div>
+
+
+          <span class="status-label">
+            ESTADO DEL VEHÍCULO
+          </span>
+
+
+          <h2>
+            No se pudo obtener la posición
+          </h2>
+
+
+          <p>
+            Intenta seleccionar nuevamente el vehículo.
+          </p>
+
+        </div>
+
+      } @else if (
+        selectedDevice() &&
+        position()
+      ) {
+
+        <!-- ===================================
+             IDENTIDAD
+             =================================== -->
+
+        <div class="status-top">
+
+          <div
+            class="vehicle-status-icon"
+            aria-hidden="true"
+          >
+
+            <i class="fi fi-rr-car"></i>
+
+          </div>
+
+          <div class="vehicle-identity">
+
+            <span class="status-label me-2">
+              VEHÍCULO
+            </span>
+
+            <span
+              class="device-status"
+              [class.device-status--online]="
+                selectedDevice()?.status === 'online'
+              "
+              [class.device-status--offline]="
+                selectedDevice()?.status === 'offline'
+              "
+              [class.device-status--unknown]="
+                selectedDevice()?.status === 'unknown'
+              "
+            >
+
+              <span
+                class="status-dot"
+                aria-hidden="true"
+              ></span>
+
+              {{ getStatusLabel(selectedDevice()?.status) }}
+
+            </span>
+
+            <h2 id="vehicle-status-title">
+              {{ selectedDevice()?.name }}
+            </h2>
+
+
+            <span class="vehicle-id">
+              ID {{ selectedDevice()?.id }}
+            </span>
+
+          </div>
+
+        </div>
+
+        <div
+          class="connection-status"
+          [class.data-updated]="statusUpdated()"
+        >
+
+          <span class="connection-text">
+
+            @if (position()?.attributes?.['motion']) {
+
+              <span class="status status--moving">
+
+                <i
+                  class="fi fi-br-running"
+                  aria-hidden="true"
+                ></i>
+
+                En movimiento
+
+              </span>
+
+            } @else {
+
+              <span class="status status--stopped">
+
+                <i
+                  class="fi fi-br-ban"
+                  aria-hidden="true"
+                ></i>
+
+                Detenido
+
+              </span>
+
+            }
+
+          </span>
+
+        </div>
+
+
+        <!-- =================================
+             MÉTRICAS
+             ================================= -->
+
+        <div class="metrics">
+          <!-- VELOCIDAD -->
+          <!-- <div
+            class="metric speed-metric"
+            [class.speed-low]="testSpeedLevel === 'low'"
+            [class.speed-medium]="testSpeedLevel === 'medium'"
+            [class.speed-high]="testSpeedLevel=== 'high'"
+            [class.level-changed]="speedLevelChanged()"
+          > Pruebas temporales-->
+
+          <div
+            class="metric speed-metric"
+            [class.speed-low]="getSpeedLevel() === 'low'"
+            [class.speed-medium]="getSpeedLevel() === 'medium'"
+            [class.speed-high]="getSpeedLevel() === 'high'"
+            [class.level-changed]="speedLevelChanged()"
+            >
+
+            <div
+              class="metric-icon speed-icon"
+              aria-hidden="true"
+            >
+              <i class="fi fi-rr-tachometer-fast"></i>
+            </div>
+
+            <div class="metric-content">
+
+              <span class="metric-label">
+                VELOCIDAD - {{ getSpeedLabel() }}
+              </span>
+
+              <strong
+                class="metric-value"
+                [class.data-updated]="speedUpdated()"
+              >
+                {{
+                  position()?.speed! * 1.852
+                  | number:'1.1-1'
+                }}
+
+                <span>
+                  km/h
+                </span>
+              </strong>
+
+            </div>
+
+          </div>
+
+          <!-- BATERÍA -->
+
+         <!--  <div
+            class="metric battery-metric"
+           
+            [class.battery-low]="testBatteryLevel === 'low'"
+            [class.battery-medium]="testBatteryLevel === 'medium'"
+            [class.battery-high]="testBatteryLevel === 'high'"
+            [class.level-changed]="batteryLevelChanged()"
+          > pruebas temporales-->
+          <div class="metric battery-metric"
+            [class.battery-low]="getBatteryLevel() === 'low'"
+            [class.battery-medium]="getBatteryLevel() === 'medium'"
+            [class.battery-high]="getBatteryLevel() === 'high'"
+            [class.level-changed]="batteryLevelChanged()"
+            >
+            <div
+              class="metric-icon battery-icon"
+              aria-hidden="true"
+            >
+
+              <i class="fi fi-rr-battery-half"></i>
+
+            </div>
+
+
+            <div class="metric-content">
+
+              <span class="metric-label">
+                BATERÍA - {{getBatteryLabel()}}
+              </span>
+
+
+              <strong>
+
+                {{
+                  position()?.attributes?.['batteryLevel']
+                  ?? '—'
+                }}
+
+                <span>
+                  %
+                </span>
+
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================
+             DIRECCIÓN ACTUAL
+             ================================= -->
+
+        <div class="detail-row">
+
+          <span>
+            Dirección actual
+          </span>
+
+
+          <strong>
+            Latitud: {{ position()?.latitude }}
+          </strong>
+
+
+          <br>
+
+
+          <strong>
+            Longitud: {{ position()?.longitude }}
+          </strong>
+
+        </div>
+
+
+        <!-- =================================
+             DETALLES
+             ================================= -->
+
+        <div class="status-details">
+
+
+          <!-- ÚLTIMA ACTUALIZACIÓN -->
+
+          <div class="detail-row">
+
+            <span>
+              Última actualización
+            </span>
+
+
+            <strong>
+
+              {{
+                position()?.fixTime
+                | date:'dd/MM/yyyy HH:mm'
+              }}
+
+            </strong>
+
+          </div>
+
+
+          <!-- PRECISIÓN GPS -->
+
+          <div class="detail-row">
+
+            <span>
+              Precisión GPS
+            </span>
+
+
+            <strong>
+
+              {{
+                position()?.accuracy
+                | number:'1.0-1'
+              }}
+
+              m
+
+            </strong>
+
+          </div>
+
+
+          <!-- RUMBO -->
+
+          <div class="detail-row">
+
+            <span>
+              Rumbo
+            </span>
+
+
+            <strong>
+
+              {{
+                position()?.course
+                | number:'1.0-0'
+              }}°
+
+            </strong>
+
+          </div>
+
+        </div>
+<!--         <div class="prueba con botones">
+           <div>
+            <strong>Velocidad</strong>
+
+            <button
+              type="button"
+              (click)="testMetricLevel('speed', 'low')"
+            >
+              Baja
+            </button>
+
+            <button
+              type="button"
+              (click)="testMetricLevel('speed', 'medium')"
+            >
+              Media
+            </button>
+
+            <button
+              type="button"
+              (click)="testMetricLevel('speed', 'high')"
+            >
+              Alta
+            </button>
+          </div>
+
+          <div>
+            <strong>Batería</strong>
+
+            <button
+              type="button"
+              (click)="testMetricLevel('battery', 'low')"
+            >
+              Baja
+            </button>
+
+            <button
+              type="button"
+              (click)="testMetricLevel('battery', 'medium')"
+            >
+              Media
+            </button>
+
+            <button
+              type="button"
+              (click)="testMetricLevel('battery', 'high')"
+            >
+              Alta
+            </button>
+          </div>
+        </div> -->
+      <!-- =====================================
+           ESTADO INICIAL
+           ===================================== -->
+
+      } @else {
+
+        <div class="status-empty">
+
+          <div
+            class="status-icon"
+            aria-hidden="true"
+          >
+
+            <i class="fi fi-rr-car"></i>
+
+          </div>
+
+
+          <span class="status-label">
+            ESTADO DEL VEHÍCULO
+          </span>
+
+
+          <h2>
+            Selecciona un vehículo
+          </h2>
+
+
+          <p>
+            Aquí aparecerá la información de conexión,
+            velocidad y última actualización.
+          </p>
+
+        </div>
+
+      }
+
+    </article>
+
+    <!-- =========================================
+         MAPA
+         ========================================= -->
+
+    <article
+      class="vehicle-map-container"
+      aria-label="Mapa de ubicación del vehículo"
+    >
+
+      <app-vehicle-map
+        [latitude]="position()?.latitude"
+        [longitude]="position()?.longitude"
+        [course]="position()?.course"
+        [status]="selectedDevice()?.status"
+      />
+
+    </article>
+
+  </section>
+
+</section>

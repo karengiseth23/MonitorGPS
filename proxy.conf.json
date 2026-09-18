@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://demo4.traccar.org",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

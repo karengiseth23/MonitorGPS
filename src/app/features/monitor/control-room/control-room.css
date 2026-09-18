@@ -1,0 +1,983 @@
+/* =========================================
+   CONTROL ROOM
+   ========================================= */
+
+.control-room {
+  width: min(100%, 1600px);
+  margin: 0 auto;
+  padding: 40px 32px 56px;
+}
+
+.control-room-header {
+  margin-bottom: 32px;
+}
+
+.header-content {
+  max-width: 760px;
+}
+
+.eyebrow,
+.section-label,
+.status-label,
+.metric-label {
+  display: inline-block;
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+}
+
+.control-room h1 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.header-content p {
+  max-width: 620px;
+  margin: 12px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.vehicle-selection {
+  margin-bottom: 28px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-primary-soft);
+}
+
+.section-heading {
+  margin-bottom: 12px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 18px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+/* =========================================
+   MONITORING AREA
+   ========================================= */
+
+.monitoring-area {
+  display: grid;
+  grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+  gap: 20px;
+}
+
+/* =========================================
+   VEHICLE STATUS
+   ========================================= */
+
+.vehicle-status {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  background: var(--color-surface);
+  box-shadow: 0 8px 30px rgb(15 23 42 / 5%);
+}
+
+/* =========================================
+   TOP
+   ========================================= */
+
+.status-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.vehicle-status-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  border-radius: 14px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-size: 20px;
+}
+
+.vehicle-identity {
+  min-width: 0;
+}
+
+.vehicle-identity h2 {
+  margin: 3px 0 2px;
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vehicle-id {
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+/* =========================================
+   CONNECTION
+   ========================================= */
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 24px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--color-surface-secondary);
+}
+
+.status-indicator {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-radius: 50%;
+  background: var(--color-text-muted);
+}
+
+.status-indicator-moving {
+  background: var(--color-success);
+  box-shadow: 0 0 0 4px rgb(22 163 74 / 12%);
+}
+
+.connection-text {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+/* =========================================
+   METRICS
+   ========================================= */
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.metric {
+  display: inline;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface-secondary);
+}
+
+.metric-icon {
+  display: grid;
+  place-items: center;
+  width: auto;
+  height: 42px;
+  flex: 0 0 36px;
+  border-radius: 10px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-size: 32px;
+}
+
+.metric-content {
+  text-align: center;
+}
+
+.metric-label {
+  margin-bottom: 3px;
+  color: var(--color-text-muted);
+  font-size: 9px;
+}
+
+.metric-content strong {
+  display: block;
+  color: var(--color-text);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.metric-content strong span {
+  margin-left: 3px;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* =========================================
+   DETAILS
+   ========================================= */
+
+.status-details {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--color-border);
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+.detail-row span {
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+
+.detail-row strong {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 650;
+  text-align: right;
+}
+
+/* =========================================
+   EMPTY / LOADING / ERROR
+   ========================================= */
+
+.status-empty,
+.status-loading,
+.status-error {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 260px;
+}
+
+.status-icon,
+.loading-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-size: 19px;
+}
+
+.status-icon-error {
+  background: rgb(220 38 38 / 10%);
+  color: var(--color-danger);
+}
+
+.status-empty h2,
+.status-loading h2,
+.status-error h2 {
+  margin: 5px 0 0;
+  color: var(--color-text);
+  font-size: 21px;
+  font-weight: 650;
+}
+
+.status-empty p,
+.status-loading p,
+.status-error p {
+  max-width: 290px;
+  margin: 10px 0 0;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+/* =========================================
+   MAP PLACEHOLDER
+   ========================================= */
+
+.map-placeholder {
+  position: relative;
+  min-width: 0;
+  min-height: 560px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      var(--color-primary-soft),
+      transparent 35%
+    ),
+    var(--color-surface-secondary);
+  box-shadow: 0 8px 30px rgb(15 23 42 / 5%);
+}
+
+.map-placeholder::before,
+.map-placeholder::after {
+  position: absolute;
+  pointer-events: none;
+  content: '';
+}
+
+.map-placeholder::before {
+  inset: 0;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(
+      var(--color-border) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      var(--color-border) 1px,
+      transparent 1px
+    );
+  background-size: 48px 48px;
+}
+
+.map-placeholder::after {
+  inset: 20% 10%;
+  border: 1px dashed var(--color-border);
+  border-radius: 50%;
+  opacity: 0.45;
+}
+
+.map-placeholder-content {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: max-content;
+  max-width: calc(100% - 40px);
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.map-icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  box-shadow: 0 8px 24px rgb(15 23 42 / 8%);
+  font-size: 20px;
+}
+
+.map-placeholder-content > span {
+  color: var(--color-text);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.map-placeholder-content p {
+  margin: 7px 0 0;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+/* =========================================
+   MICRO-INTERACTIONS
+   ========================================= */
+
+.metric,
+.connection-status {
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+/* Realce temporal cuando llega un nuevo dato desde Traccar */
+
+.metric.data-updated {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgb(109 74 255 / 8%);
+  transform: translateY(-1px);
+}
+
+.connection-status.data-updated {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgb(109 74 255 / 8%);
+}
+
+.connection-status.data-updated .status-indicator {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 5px rgb(22 163 74 / 12%);
+}
+
+.metric.data-updated .metric-content strong {
+  transition:
+    color 220ms ease,
+    transform 220ms ease;
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   ESTADO DE BATERÍA
+   ========================================= */
+
+.battery-metric.battery-low {
+  border-color: var(--color-danger);
+}
+
+.battery-metric.battery-low .battery-icon {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.battery-metric.battery-low .metric-content strong {
+  color: var(--color-danger);
+}
+
+.battery-metric.battery-medium {
+  border-color: var(--color-warning);
+}
+
+.battery-metric.battery-medium .battery-icon {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+.battery-metric.battery-medium .metric-content strong {
+  color: var(--color-warning);
+}
+
+.battery-metric.battery-high {
+  border-color: var(--color-success);
+}
+
+.battery-metric.battery-high .battery-icon {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.battery-metric.battery-high .metric-content strong {
+  color: var(--color-success);
+}
+
+/* =========================================
+   ESTADO DE VELOCIDAD
+   ========================================= */
+
+.speed-metric.speed-low {
+  border-color: var(--color-info);
+}
+
+.speed-metric.speed-low .speed-icon {
+  background: var(--color-info-soft);
+  color: var(--color-info);
+}
+
+.speed-metric.speed-low .metric-content strong {
+  color: var(--color-info);
+}
+
+.speed-metric.speed-medium {
+  border-color: var(--color-warning);
+}
+
+.speed-metric.speed-medium .speed-icon {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+.speed-metric.speed-medium .metric-content strong {
+  color: var(--color-warning);
+}
+
+.speed-metric.speed-high {
+  border-color: var(--color-danger);
+}
+
+.speed-metric.speed-high .speed-icon {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.speed-metric.speed-high .metric-content strong {
+  color: var(--color-danger);
+}
+
+/* =========================================
+   CAMBIO DE NIVEL — PULSO 3 SEGUNDOS
+   ========================================= */
+
+.battery-metric.level-changed,
+.speed-metric.level-changed {
+  animation: metric-level-pulse 3s ease-in-out;
+  transform-origin: center;
+}
+
+@keyframes metric-level-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 transparent;
+  }
+
+  8% {
+    transform: scale(1.015);
+    box-shadow: 0 0 0 3px rgb(99 102 241 / 8%);
+  }
+
+  16% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 transparent;
+  }
+
+  24% {
+    transform: scale(1.025);
+    box-shadow: 0 0 0 5px rgb(99 102 241 / 10%);
+  }
+
+  34% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 transparent;
+  }
+
+  44% {
+    transform: scale(1.015);
+    box-shadow: 0 0 0 3px rgb(99 102 241 / 7%);
+  }
+
+  54%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+/* =========================================
+   METRIC VALUE
+   ========================================= */
+
+.metric-value {
+  display: inline-block;
+  transition: color 250ms ease;
+}
+
+.metric-value.data-updated {
+  animation: metric-value-update 350ms ease;
+}
+
+/* =========================================
+   SKELETON — TARJETA DE VEHÍCULO
+   ========================================= */
+
+.status-skeleton {
+  width: 100%;
+}
+
+.status-skeleton .skeleton {
+  display: block;
+  border-radius: 8px;
+  background: #c9ced9;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+/* =========================================
+   SKELETON — IDENTIDAD
+   ========================================= */
+
+.skeleton-status-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.skeleton-vehicle-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  border-radius: 14px !important;
+}
+
+.skeleton-identity {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.skeleton-label {
+  width: 90px;
+  height: 10px;
+}
+
+.skeleton-title {
+  width: 145px;
+  height: 22px;
+}
+
+.skeleton-id {
+  width: 65px;
+  height: 12px;
+}
+
+/* =========================================
+   SKELETON — ESTADO
+   ========================================= */
+
+.skeleton-connection {
+  width: 125px;
+  height: 38px;
+  margin-top: 24px;
+  border-radius: 10px !important;
+}
+
+/* =========================================
+   SKELETON — MÉTRICAS
+   ========================================= */
+
+.skeleton-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.skeleton-metric {
+  min-width: 0;
+  padding: 13px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface-secondary);
+}
+
+.skeleton-metric-icon {
+  width: 36px;
+  height: 42px;
+  flex: 0 0 36px;
+  margin: 0 auto 6px;
+  border-radius: 10px !important;
+}
+
+.skeleton-metric-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  text-align: center;
+}
+
+.skeleton-metric-label {
+  width: 55px;
+  height: 9px;
+  margin: 0 auto 6px;
+}
+
+.skeleton-metric-value {
+  width: 72px;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 7px !important;
+}
+
+.skeleton-metric-level {
+  width: 48px;
+  height: 16px;
+  margin: 7px auto 0;
+  border-radius: 999px !important;
+}
+
+/* =========================================
+   SKELETON — DETALLES
+   ========================================= */
+
+.skeleton-details {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.skeleton-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.skeleton-detail-label {
+  width: 125px;
+  height: 11px;
+}
+
+.skeleton-detail-value {
+  width: 105px;
+  height: 13px;
+}
+
+/* =========================================
+   DEVICE STATUS
+   ========================================= */
+
+.device-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.device-status--online {
+  color: #16a34a;
+}
+
+.device-status--online .status-dot {
+  background-color: #16a34a;
+}
+
+.device-status--unknown {
+  color: #f68346;
+}
+
+.device-status--unknown .status-dot {
+  background-color: #f68346;
+}
+
+.device-status--offline {
+  color: #6b7280;
+}
+
+.device-status--offline .status-dot {
+  background-color: #6b7280;
+}
+
+/* =========================================
+   LOADING MESSAGE
+   ========================================= */
+
+.loading-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.loading-dot {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: #6366f1;
+  animation: loading-pulse 1.2s ease-in-out infinite;
+}
+
+/* =========================================
+   ANIMACIONES
+   ========================================= */
+
+@keyframes loading-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes metric-value-update {
+  0% {
+    opacity: 0.45;
+    color: var(--color-primary);
+  }
+
+  100% {
+    opacity: 1;
+    color: inherit;
+  }
+}
+
+/* =========================================
+   DARK MODE
+   ========================================= */
+
+@media (prefers-color-scheme: dark) {
+  .status-skeleton .skeleton {
+    background: #2c374b;
+  }
+}
+
+:host-context(.dark) .vehicle-status,
+:host-context(.dark) .map-placeholder {
+  box-shadow: 0 12px 35px rgb(0 0 0 / 18%);
+}
+
+/* =========================================
+   REDUCED MOTION
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .metric,
+  .connection-status,
+  .metric-content strong,
+  .status-indicator,
+  .metric-value,
+  .vehicle-status *,
+  .map-placeholder * {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .vehicle-status *,
+  .map-placeholder * {
+    scroll-behavior: auto;
+  }
+
+  .status-skeleton .skeleton,
+  .loading-dot {
+    animation: none !important;
+  }
+}
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 1024px) {
+  .control-room {
+    padding: 32px 24px 48px;
+  }
+
+  .monitoring-area {
+    grid-template-columns: 1fr;
+  }
+
+  .vehicle-status {
+    min-height: 0;
+  }
+
+  .map-placeholder {
+    min-height: 520px;
+  }
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 640px) {
+  .control-room {
+    padding: 24px 16px 40px;
+  }
+
+  .control-room-header {
+    margin-bottom: 24px;
+  }
+
+  .control-room h1 {
+    font-size: 28px;
+  }
+
+  .header-content p {
+    font-size: 14px;
+  }
+
+  .monitoring-area {
+    gap: 16px;
+  }
+
+  .vehicle-status {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .detail-row strong {
+    text-align: left;
+  }
+
+  .map-placeholder {
+    min-height: 420px;
+    border-radius: 16px;
+  }
+}
+
+/* =========================================
+   SKELETON — RESPONSIVE
+   ========================================= */
+
+@media (max-width: 480px) {
+  .skeleton-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .skeleton-metric {
+    min-height: 138px;
+    padding: 20px;
+  }
+
+  .skeleton-metric-icon {
+    width: 58px;
+    height: 58px;
+    flex-basis: 58px;
+  }
+}

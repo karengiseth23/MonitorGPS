@@ -1,0 +1,87 @@
+<div
+  class="error-state"
+  [class.toast-error]="type() === 'error'"
+  [class.toast-warning]="type() === 'warning'"
+  [class.toast-success]="type() === 'success'"
+  [class.toast-info]="type() === 'info'"
+  role="alert"
+  aria-live="assertive"
+>
+
+  <div
+    class="error-icon"
+    aria-hidden="true"
+  >
+
+    @switch (type()) {
+
+      @case ('error') {
+        <i class="fi fi-rr-triangle-warning"></i>
+      }
+
+      @case ('warning') {
+        <i class="fi fi-rr-exclamation"></i>
+      }
+
+      @case ('success') {
+        <i class="fi fi-rr-check"></i>
+      }
+
+      @case ('info') {
+        <i class="fi fi-rr-info"></i>
+      }
+
+    }
+
+  </div>
+
+
+  <div class="error-content">
+
+    <strong class="error-title">
+
+      @switch (type()) {
+
+        @case ('error') {
+          Error del servicio
+        }
+
+        @case ('warning') {
+          Advertencia
+        }
+
+        @case ('success') {
+          Operación exitosa
+        }
+
+        @case ('info') {
+          Información
+        }
+
+      }
+
+    </strong>
+
+
+    <p class="error-message">
+      {{ message() }}
+    </p>
+
+  </div>
+
+
+  <button
+    type="button"
+    class="error-close"
+    aria-label="Cerrar notificación"
+    (click)="close()"
+  >
+
+    <i
+      class="fi fi-rr-cross-small"
+      aria-hidden="true"
+    ></i>
+
+  </button>
+
+</div>
