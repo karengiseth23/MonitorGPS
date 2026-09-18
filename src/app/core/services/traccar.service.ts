@@ -27,7 +27,9 @@ export class TraccarService {
     inject(HttpClient);
 
   private readonly baseUrl =
-    '/api';
+  window.location.hostname === 'karengiseth23.github.io'
+    ? 'https://demo4.traccar.org/api'
+    : '/api';
 
 
   /* =========================================
