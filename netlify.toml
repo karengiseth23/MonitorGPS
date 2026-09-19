@@ -1,0 +1,26 @@
+[build]
+  command = "ng build --configuration production"
+  publish = "dist/monitor/browser"
+
+[dev]
+  command = "ng serve"
+  targetPort = 4200
+  port = 8888
+
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/api/session"
+  to = "/.netlify/functions/session"
+  status = 200
+
+[[redirects]]
+  from = "/api/devices"
+  to = "/.netlify/functions/devices"
+  status = 200
+
+[[redirects]]
+  from = "/api/positions"
+  to = "/.netlify/functions/positions"
+  status = 200
