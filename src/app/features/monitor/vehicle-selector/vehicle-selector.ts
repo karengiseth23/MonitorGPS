@@ -16,6 +16,7 @@ export interface TraccarDevice {
   uniqueId: string;
   status?: string;
   disabled?: boolean;
+  category?: string;
 }
 
 

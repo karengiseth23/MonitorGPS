@@ -18,7 +18,7 @@
   flex: 0 0 48px;
   display: grid;
   place-items: center;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   background: var(--color-primary-soft);
   color: var(--color-primary);
   font-size: 1.2rem;
@@ -34,11 +34,10 @@
 
 .select-label {
   display: block;
-  color: var(--color-text-muted);
-  font-size: 0.7rem;
+  color: var(--color-primary);
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  padding-bottom: 8px;
 }
 
 .vehicle-combobox {
@@ -55,7 +54,7 @@
   gap: 16px;
   padding: 9px 13px;
   border: 1px solid var(--color-border);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   background: var(--color-surface-secondary);
   color: var(--color-text);
   cursor: pointer;
@@ -138,7 +137,7 @@
   margin-top: 8px;
   overflow: hidden;
   border: 1px solid var(--color-border);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   background: var(--color-surface);
   box-shadow:
     0 18px 45px
@@ -207,7 +206,7 @@
     38px;
 
   border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
   color: var(--color-text);
   font: inherit;
@@ -249,7 +248,7 @@
   gap: 11px;
   padding: 9px 10px;
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--color-text);
   cursor: pointer;
@@ -288,7 +287,7 @@
   flex: 0 0 36px;
   display: grid;
   place-items: center;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   background:
     var(--color-surface-secondary);
   color: var(--color-text-secondary);
@@ -349,11 +348,11 @@
 }
 
 .option-status.offline {
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
 }
 
 .option-status.unknown {
-  color: var(--color-warning);
+  color: var(--color-primary);
 }
 
 .status-dot {
@@ -399,7 +398,7 @@
   display: grid;
   place-items: center;
   margin-bottom: 4px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   background:
     var(--color-surface-secondary);
 
@@ -453,7 +452,7 @@ kbd {
   padding: 2px 5px;
   border:
     1px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   background:
     var(--color-surface);
   color: var(--color-text-secondary);
@@ -478,7 +477,7 @@ kbd {
   width: 48px;
   height: 48px;
   flex: 0 0 48px;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   background: #c9ced9;
   animation:
     skeleton-pulse 1.5s ease-in-out infinite;
@@ -494,7 +493,7 @@ kbd {
 .skeleton-lines span {
   display: block;
   height: 11px;
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
   background: #c9ced9;
   animation:
     skeleton-pulse 1.5s ease-in-out infinite;
@@ -511,7 +510,7 @@ kbd {
 .skeleton-control {
   width: 150px;
   height: 46px;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   background: #c9ced9;
   animation:
     skeleton-pulse 1.5s ease-in-out infinite;
@@ -552,7 +551,7 @@ kbd {
   flex: 0 0 46px;
   display: grid;
   place-items: center;
-  border-radius: 13px;
+  border-radius: var(--radius-md);
   background:
     var(--color-surface-secondary);
 
@@ -599,7 +598,7 @@ kbd {
   border:
     1px solid var(--color-border);
 
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   background:
     var(--color-surface);
 

@@ -1,6 +1,7 @@
 import {
   Component,
   inject,
+  OnDestroy,
   signal
 } from '@angular/core';
 
@@ -84,7 +85,13 @@ interface TraccarPosition {
   styleUrl: './control-room.css'
 
 })
-export class ControlRoom {
+export class ControlRoom  implements OnDestroy{
+
+  ngOnDestroy(): void {
+      if (this.timeInterval) {
+      clearInterval(this.timeInterval);
+    }
+  }
 
 
   private readonly traccarService =
@@ -106,6 +113,13 @@ export class ControlRoom {
   positionError =
     signal(false);
 
+  positionNotFound = 
+    signal(false);
+
+  currentTime = 
+    signal(Date.now());
+  
+  private timeInterval?: ReturnType<typeof setInterval>;
 
   /* ANIMACIONES DE ACTUALIZACIÓN*/
 
@@ -126,9 +140,14 @@ export class ControlRoom {
   batteryLevelChanged = 
     signal(false);
 
-
 //testSpeedLevel: 'low' | 'medium' | 'high' = 'low';
 //testBatteryLevel: 'low' | 'medium' | 'high' = 'low';
+
+  constructor() {
+    this.timeInterval = setInterval(() => {
+      this.currentTime.set(Date.now());
+    }, 1000);
+  }
   /* VEHÍCULO SELECCIONADO  */
 
   onDeviceSelected(
@@ -194,6 +213,9 @@ export class ControlRoom {
               false
             );
 
+            this.positionNotFound.set(
+              true);
+
             return;
 
           }
@@ -241,15 +263,16 @@ export class ControlRoom {
             newPosition
           );
 
-
           this.isPositionLoading.set(
             false
           );
 
-
           this.positionError.set(
             false
           );
+
+          this.positionNotFound.set(
+            false)
 
           /* ANIMACIONES*/
 
@@ -273,6 +296,8 @@ export class ControlRoom {
           this.positionError.set(
             true
           );
+            this.positionNotFound.set(
+              false);
         }
 
       });
@@ -476,6 +501,148 @@ export class ControlRoom {
 
   }
 
+  getCategoryIcon(category: string | null | undefined): string {
+  switch (category?.toLowerCase()) {
+    case 'car':
+      return 'fi fi-rr-car';
+
+    case 'truck':
+      return 'fi fi-rr-truck-moving';
+
+    case 'bus':
+      return 'fi fi-rr-bus';
+
+    case 'motorcycle':
+      return 'fi fi-rr-motorcycle';
+
+    case 'person':
+      return 'fi fi-rr-user';
+
+    case 'bicycle':
+      return 'fi fi-rr-biking';
+
+    case 'scooter':
+      return 'fi fi-rr-moped';
+
+    default:
+      return 'fi fi-rr-car';
+  }
+}
+
+  getCategoryLabel(category: string | null | undefined): string {
+    switch (category?.toLowerCase()) {
+      case 'car':
+        return 'Automóvil';
+
+      case 'truck':
+        return 'Camión';
+
+      case 'motorcycle':
+        return 'Motocicleta';
+      
+      case 'scooter':
+        return 'Scooter';
+
+      case 'person':
+        return 'Persona';
+
+      case 'bicycle':
+        return 'Bicicleta';
+
+      default:
+        return 'Vehículo';
+    }
+  }
+
+  getRelativeTime(
+      date: string | Date | null | undefined
+    ): string {
+
+      if (!date) {
+        return 'Sin información';
+      }
+
+      const timestamp =
+        new Date(date).getTime();
+
+      if (Number.isNaN(timestamp)) {
+        return 'Sin información';
+      }
+
+      const difference =
+        Math.max(
+          0,
+          Math.floor(
+            (this.currentTime() - timestamp) / 1000
+          )
+        );
+
+
+      // Segundos
+      if (difference < 60) {
+
+        return difference <= 1
+          ? 'hace 1 segundo'
+          : `hace ${difference} segundos`;
+
+      }
+
+
+      // Minutos
+      const minutes =
+        Math.floor(
+          difference / 60
+        );
+
+      if (minutes < 60) {
+
+        return minutes === 1
+          ? 'hace 1 minuto'
+          : `hace ${minutes} minutos`;
+
+      }
+
+
+      // Horas
+      const hours =
+        Math.floor(minutes / 60);
+
+      if (hours < 24) {
+
+        const remainingMinutes =
+          minutes % 60;
+
+        if (hours === 1) {
+
+          if (remainingMinutes === 0) {
+            return 'hace 1 hora';
+          }
+
+          if (remainingMinutes === 1) {
+            return 'hace 1 hora y 1 minuto';
+          }
+
+          return `hace 1 hora y ${remainingMinutes} minutos`;
+        }
+
+        if (remainingMinutes === 0) {
+          return `hace ${hours} horas`;
+        }
+
+        return `hace ${hours} horas y ${remainingMinutes} minutos`;
+      }
+
+
+      // Días
+      const days =
+        Math.floor(
+          hours / 24
+        );
+
+      return days === 1
+        ? 'hace 1 día'
+        : `hace ${days} días`;
+    }
 /*   testMetricLevel(
   metric: 'speed' | 'battery',
   level: 'low' | 'medium' | 'high'

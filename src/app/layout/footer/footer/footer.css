@@ -4,17 +4,16 @@
 }
 
 .footer-container {
-  width: min(100% - 32px, 1280px);
+  width:auto;
   min-height: 64px;
   margin: 0 auto;
-
+  padding: 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-
   color: var(--color-text-muted);
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .footer-container p {

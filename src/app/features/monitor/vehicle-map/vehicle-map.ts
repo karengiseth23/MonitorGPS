@@ -5,7 +5,8 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
-  ViewChild
+  ViewChild,
+  OnDestroy,
 } from '@angular/core';
 
 import * as L from 'leaflet';
@@ -18,7 +19,7 @@ import * as L from 'leaflet';
   styleUrl: './vehicle-map.css'
 })
 export class VehicleMap
-  implements AfterViewInit, OnChanges {
+  implements AfterViewInit, OnChanges, OnDestroy {
 
   @ViewChild('map')
   private mapElement!: ElementRef<HTMLDivElement>;
@@ -37,7 +38,9 @@ export class VehicleMap
 
   private map!: L.Map;
 
-  private marker!: L.Marker;
+  private marker?: L.Marker;
+  private tileLayer!: L.TileLayer;
+  private themeObserver!: MutationObserver;
 
   private animationFrameId:
     number | null = null;
@@ -46,27 +49,31 @@ export class VehicleMap
     this.initMap();
   }
 
-  ngOnChanges(
-    changes: SimpleChanges
-  ): void {
-
+  ngOnChanges(changes: SimpleChanges): void {
     if (
-      this.map &&
-      (
+      !this.map ||
+      !(
         changes['latitude'] ||
         changes['longitude'] ||
         changes['course'] ||
         changes['status']
-      ) &&
-      this.latitude != null &&
-      this.longitude != null
+      )
     ) {
-      this.updateVehiclePosition();
+      return;
     }
+
+    if (
+      this.latitude == null ||
+      this.longitude == null
+    ) {
+      this.removeMarker();
+      return;
+    }
+
+    this.updateVehiclePosition();
   }
 
   private initMap(): void {
-
     const latitude =
       this.latitude ?? 4.1420;
 
@@ -80,16 +87,17 @@ export class VehicleMap
         latitude,
         longitude
       ],
-      15
+      16
     );
 
-    L.tileLayer(
-      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      {
-        attribution:
-          '&copy; OpenStreetMap contributors'
-      }
-    ).addTo(this.map);
+    this.tileLayer =
+      this.createTileLayer();
+
+    this.tileLayer.addTo(
+      this.map
+    );
+
+    this.observeTheme();
 
     if (
       this.latitude != null &&
@@ -104,25 +112,44 @@ export class VehicleMap
   }
 
   private createMarker(): void {
+    const position = L.latLng(
+      this.latitude!,
+      this.longitude!
+    );
 
     this.marker = L.marker(
-      [
-        this.latitude!,
-        this.longitude!
-      ],
+      position,
       {
-        icon:
-          this.createVehicleIcon()
+        icon: this.createVehicleIcon()
       }
     ).addTo(this.map);
 
     this.marker.bindPopup(
       'Vehículo seleccionado'
     );
+
+    this.map.panTo(
+      position,
+      {
+        animate: true,
+        duration: 0.7
+      }
+    );
+  }
+
+  private removeMarker(): void {
+    if (!this.marker) {
+      return;
+    }
+
+    this.map.removeLayer(
+      this.marker
+    );
+
+    this.marker = undefined;
   }
 
   private updateVehiclePosition(): void {
-
     const newPosition =
       L.latLng(
         this.latitude!,
@@ -130,9 +157,7 @@ export class VehicleMap
       );
 
     if (!this.marker) {
-
       this.createMarker();
-
       return;
     }
 
@@ -164,6 +189,10 @@ export class VehicleMap
     to: L.LatLng,
     duration: number = 700
   ): void {
+    if (!this.marker) {
+      this.animationFrameId = null;
+      return;
+    }
 
     if (
       this.animationFrameId !== null
@@ -181,7 +210,6 @@ export class VehicleMap
     if (
       prefersReducedMotion
     ) {
-
       this.marker.setLatLng(
         to
       );
@@ -197,6 +225,16 @@ export class VehicleMap
     const animate = (
       currentTime: number
     ): void => {
+
+      /*
+       * El marcador puede haber sido eliminado
+       * mientras la animación estaba ejecutándose.
+       */
+
+      if (!this.marker) {
+        this.animationFrameId = null;
+        return;
+      }
 
       const elapsed =
         currentTime -
@@ -253,14 +291,11 @@ export class VehicleMap
       if (
         progress < 1
       ) {
-
         this.animationFrameId =
           requestAnimationFrame(
             animate
           );
-
       } else {
-
         this.marker.setLatLng(
           to
         );
@@ -277,7 +312,6 @@ export class VehicleMap
   }
 
   private createVehicleIcon(): L.DivIcon {
-
     const color =
       this.getVehicleColor();
 
@@ -285,7 +319,6 @@ export class VehicleMap
       this.course ?? 0;
 
     return L.divIcon({
-
       className: '',
 
       html: `
@@ -421,7 +454,6 @@ export class VehicleMap
   }
 
   private getVehicleColor(): string {
-
     if (
       this.status === 'online'
     ) {
@@ -430,4 +462,75 @@ export class VehicleMap
 
     return '#6b7280';
   }
+
+  private createTileLayer(): L.TileLayer {
+    const isDark =
+      document.documentElement.getAttribute(
+        'data-theme'
+      ) === 'dark';
+
+    const url = isDark
+      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+      : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+    return L.tileLayer(
+      url,
+      {
+        attribution: isDark
+          ? '&copy; OpenStreetMap contributors &copy; CARTO'
+          : '&copy; OpenStreetMap contributors',
+
+        detectRetina: true,
+        maxZoom: 19
+      }
+    );
+  }
+
+  private observeTheme(): void {
+    this.themeObserver =
+      new MutationObserver(() => {
+        this.updateMapTheme();
+      });
+
+    this.themeObserver.observe(
+      document.documentElement,
+      {
+        attributes: true,
+        attributeFilter: [
+          'data-theme'
+        ]
+      }
+    );
+  }
+
+  private updateMapTheme(): void {
+    const newTileLayer =
+      this.createTileLayer();
+
+    this.map.removeLayer(
+      this.tileLayer
+    );
+
+    this.tileLayer =
+      newTileLayer;
+
+    this.tileLayer.addTo(
+      this.map
+    );
+  }
+
+  ngOnDestroy(): void {
+    if (
+      this.animationFrameId !== null
+    ) {
+      cancelAnimationFrame(
+        this.animationFrameId
+      );
+    }
+
+    this.themeObserver?.disconnect();
+
+    this.map?.remove();
+  }
 }
+

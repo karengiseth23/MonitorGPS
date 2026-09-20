@@ -44,12 +44,8 @@
             <span class="header-user-info">
 
               <span class="user-greeting">
-                Hola,
+                Hola, <strong class="header-user-name">{{ user.name || user.email }}</strong>
               </span>
-
-              <strong class="header-user-name">
-                {{ user.name || user.email }}
-              </strong>
 
             </span>
 
