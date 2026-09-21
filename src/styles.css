@@ -14,7 +14,7 @@
 
   --color-primary: #6d4aff;
   --color-primary-hover: #5938e8;
-  --color-primary-soft: rgb(109 74 255 / 10%);
+  --color-primary-soft:#f2f0ff ;
 
   --color-background: #f5f7fb;
   --color-surface: #ffffff;
@@ -23,7 +23,7 @@
 
   --color-text: #111827;
   --color-text-secondary: #374151;
-  --color-text-muted: #6b7280;
+  --color-text-muted: #616975;
 
   --color-border: #e5e7eb;
   --color-border-hover: #d1d5db;

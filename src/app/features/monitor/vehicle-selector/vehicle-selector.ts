@@ -19,7 +19,11 @@ export interface TraccarDevice {
   disabled?: boolean;
   category?: string;
 }
-
+type StatusFilter =
+  | 'all'
+  | 'online'
+  | 'offline'
+  | 'unknown';
 
 @Component({
   selector: 'app-vehicle-selector',
@@ -30,6 +34,8 @@ export interface TraccarDevice {
 
   styleUrl: './vehicle-selector.css'
 })
+
+
 export class VehicleSelector implements OnInit {
 
   private readonly traccarService =
@@ -47,7 +53,6 @@ export class VehicleSelector implements OnInit {
    */
 
   devices: TraccarDevice[] = [];
-
 
   /*
    * =========================================
@@ -85,6 +90,7 @@ export class VehicleSelector implements OnInit {
    */
 
   searchTerm = '';
+  statusFilter: StatusFilter = 'all';
 
 
   /*
@@ -217,53 +223,60 @@ export class VehicleSelector implements OnInit {
    * =========================================
    */
 
-  get filteredDevices(): TraccarDevice[] {
+get filteredDevices(): TraccarDevice[] {
 
-    const term =
-      this.normalize(
-        this.searchTerm
-      );
-
-
-    if (!term) {
-
-      return this.devices;
-
-    }
-
-
-    return this.devices.filter(
-      device => {
-
-        const name =
-          this.normalize(
-            device.name
-          );
-
-
-        const id =
-          this.normalize(
-            device.id.toString()
-          );
-
-
-        const uniqueId =
-          this.normalize(
-            device.uniqueId
-          );
-
-
-        return (
-          name.includes(term) ||
-          id.includes(term) ||
-          uniqueId.includes(term)
-        );
-
-      }
+  const term =
+    this.normalize(
+      this.searchTerm
     );
 
-  }
 
+  return this.devices.filter(
+    device => {
+      const name =
+        this.normalize(
+          device.name
+        );
+
+      const id =
+        this.normalize(
+          device.id.toString()
+        );
+
+
+      const uniqueId =
+        this.normalize(
+          device.uniqueId
+        );
+
+
+      const matchesSearch =
+        !term ||
+        name.includes(term) ||
+        id.includes(term) ||
+        uniqueId.includes(term);
+
+
+      /*
+       * -------------------------------------
+       * FILTRO POR ESTADO
+       * -------------------------------------
+       */
+
+      const matchesStatus =
+        this.statusFilter === 'all' ||
+        this.getDeviceStatusClass(device) ===
+          this.statusFilter;
+
+      return (
+        matchesSearch &&
+        matchesStatus
+      );
+
+    }
+  );
+
+}
 
   /*
    * =========================================
@@ -384,6 +397,16 @@ export class VehicleSelector implements OnInit {
     );
 
   }
+
+  setStatusFilter( filter: StatusFilter): void {
+
+      this.statusFilter = filter;
+
+      this.activeIndex =
+        this.filteredDevices.length > 0
+          ? 0
+          : -1;
+    }
 
 
   /*

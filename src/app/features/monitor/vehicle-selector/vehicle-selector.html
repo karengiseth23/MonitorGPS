@@ -211,6 +211,58 @@
 
               </div>
 
+              <!-- Filtro por estado -->
+            <div class="status-filter" aria-label="Filtrar vehículos por estado">
+
+              <button
+                type="button"
+                class="status-filter-option"
+                [class.is-active]="statusFilter === 'all'"
+                (click)="setStatusFilter('all')"
+              >
+                Todos
+              </button>
+
+              <button
+                type="button"
+                class="status-filter-option"
+                [class.is-active]="statusFilter === 'online'"
+                (click)="setStatusFilter('online')"
+              >
+                <span
+                  class="status-dot online"
+                  aria-hidden="true"
+                ></span>
+                Online
+              </button>
+
+              <button
+                type="button"
+                class="status-filter-option"
+                [class.is-active]="statusFilter === 'offline'"
+                (click)="setStatusFilter('offline')"
+              >
+                <span
+                  class="status-dot offline"
+                  aria-hidden="true"
+                ></span>
+                Offline
+              </button>
+
+              <button
+                type="button"
+                class="status-filter-option"
+                [class.is-active]="statusFilter === 'unknown'"
+                (click)="setStatusFilter('unknown')"
+              >
+                <span
+                  class="status-dot unknown"
+                  aria-hidden="true"
+                ></span>
+                Unknown
+              </button>
+
+            </div>
 
               <!-- Resultados -->
               <div
