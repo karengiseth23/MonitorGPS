@@ -1,6 +1,40 @@
-# Monitor
+# MonitorGPS
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.4.
+Aplicación web de monitoreo vehicular desarrollada con **Angular 22**. Permite autenticarse, consultar dispositivos desde **Traccar**, seleccionar un vehículo y visualizar su ubicación actual e información de estado en un mapa interactivo.
+
+## Technologies
+
+* **Angular 22**
+* **TypeScript**
+* **CSS / Tailwind CSS**
+* **Leaflet + OpenStreetMap**
+* **Flaticon**
+* **Traccar API**
+* **Netlify Functions**
+
+## Requirements
+
+* **Node.js 24.x**
+* **npm 11.x**
+* **Angular CLI 22.x**
+
+To verify the installed versions, run:
+
+```bash
+node --version
+npm --version
+ng version
+```
+
+## Installation
+
+Clone the repository and install the project dependencies:
+
+```bash
+git clone <URL_DEL_REPOSITORIO>
+cd monitor
+npm install
+```
 
 ## Development server
 
@@ -10,35 +44,68 @@ To start a local development server, run:
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Once the server is running, open your browser and navigate to `http://localhost:4200/`.
 
-## Code scaffolding
+The application will automatically reload whenever you modify any of the source files.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Traccar API
 
-```bash
-ng generate component component-name
+The frontend uses **`/api`** as the base path for requests to Traccar.
+
+Endpoints used:
+
+| Method   | Endpoint         | Usage                 |
+| -------- | ---------------- | --------------------- |
+| **POST** | `/api/session`   | Authentication        |
+| **GET**  | `/api/devices`   | Get devices           |
+| **GET**  | `/api/positions` | Get current positions |
+
+In production, requests are handled through **Netlify Functions**, located in:
+
+```text
+netlify/functions/
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Sensitive credentials and configuration are **not stored in the repository**.
 
-```bash
-ng generate --help
-```
+## Features
+
+* **Authentication** and session management.
+* **Vehicle list** and vehicle selection.
+* **Search** by name, ID or `uniqueId`.
+* **Status filters:** Online, Offline and Unknown.
+* **Interactive map** with vehicle location and heading.
+* **Vehicle status** and telemetry information.
+* **Loading, error and empty states.**
+* **Responsive design** for desktop and mobile devices.
+* **Light and dark themes.**
+* **Keyboard navigation** and accessibility considerations.
 
 ## Building
 
-To build the project run:
+To build the project, run:
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+For a production build, run:
+
+```bash
+ng build --configuration production
+```
+
+The generated files are stored in:
+
+```text
+dist/monitor/browser
+```
+
+The production deployment is configured through **Netlify** using the `main` branch.
 
 ## Running unit tests
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+To execute unit tests with the **Vitest** test runner, run:
 
 ```bash
 ng test
@@ -56,4 +123,6 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 
 ## Additional Resources
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+For more information about Angular, visit the [Angular documentation](https://angular.dev/).
+
+For more information about the Angular CLI, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli).
