@@ -244,6 +244,7 @@
   text-align: left;
   transition:
     background-color 140ms ease;
+  margin-top: 8px;
 }
 
 

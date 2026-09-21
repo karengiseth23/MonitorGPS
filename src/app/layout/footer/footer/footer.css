@@ -1,37 +1,120 @@
 .app-footer {
   border-top: 1px solid var(--color-border);
-  background: var(--color-surface);
+  background: var(--color-primary);
+  width: 100%;
 }
 
 .footer-container {
-  width:auto;
+  width: auto;
   min-height: 64px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 8px 7%;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  color: var(--color-text-muted);
+
+  gap: 24px;
+
+  color: var(--color-surface);
   font-size: 12px;
 }
 
-.footer-container p {
-  margin: 0;
+/* =========================================
+   BRAND
+   ========================================= */
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
-.footer-container span {
-  text-align: right;
+.footer-title {
+  font-size: 14px;
+  font-weight: 700;
 }
+
+.footer-description {
+  font-size: 11px;
+}
+
+.footer-accessibility {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-accessibility img {
+  width: auto;
+  height: 32px;
+}
+
+.footer-document {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+  padding: 7px 12px;
+
+  border-radius: 8px;
+
+  color: var(--color-surface);
+  font-size: 12px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.footer-document i {
+  font-size: 14px;
+}
+
+.footer-document:hover {
+  background: color-mix(
+    in srgb,
+    var(--color-surface) 18%,
+    transparent
+  );
+}
+
+.footer-document:active {
+  transform: translateY(1px);
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
 
 @media (max-width: 640px) {
+
   .footer-container {
     flex-direction: column;
     justify-content: center;
-    padding: 16px 0;
+
+    min-height: auto;
+    padding: 16px 7%;
+
+    gap: 12px;
   }
 
-  .footer-container span {
+  .footer-brand {
+    align-items: center;
     text-align: center;
+  }
+
+  .footer-accessibility {
+  flex-direction: column;
+  gap: 8;
+  }
+
+  .footer-document {
+    order: 3;
   }
 }

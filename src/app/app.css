@@ -1,14 +1,10 @@
 .app-shell {
-  min-height: 100vh;
-
+  position:absolute;
+  top: 72px;
   display: flex;
   flex-direction: column;
-
   background: var(--color-background);
   color: var(--color-text);
-}
-
-.app-main {
-  flex: 1;
+  margin: auto;
   width: 100%;
 }
