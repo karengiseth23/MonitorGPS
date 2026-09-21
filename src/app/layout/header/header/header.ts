@@ -1,11 +1,13 @@
 
-import {Component, ElementRef, HostListener, OnDestroy, inject, signal} from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, OnDestroy, Output, inject, signal } from '@angular/core';
 
 import { Router, RouterLink } from '@angular/router';
 
 import { ThemeToggle } from '../../../shared/components/theme-toggle/theme-toggle';
 
-import {TraccarService, TraccarUser} from '../../../core/services/traccar.service';
+import { TraccarService, TraccarUser } from '../../../core/services/traccar.service';
+
+import { menuOpenService } from '../../../core/services/open-menu.service';
 
 
 @Component({
@@ -20,7 +22,11 @@ import {TraccarService, TraccarUser} from '../../../core/services/traccar.servic
 
   styleUrl: './header.css'
 })
+
+
 export class Header implements OnDestroy {
+
+  readonly openMenu = inject(menuOpenService);
 
   private readonly router =
     inject(Router);
@@ -41,14 +47,7 @@ export class Header implements OnDestroy {
   private readonly userSubscription =
     this.traccarService.currentUser$
       .subscribe(user => {
-
-        console.log(
-          'HEADER >>> USUARIO:',
-          user
-        );
-
         this.currentUser.set(user);
-
       });
 
   constructor() {
@@ -81,12 +80,16 @@ export class Header implements OnDestroy {
     this.dropdownOpen.update(
       value => !value
     );
+    this.openMenu.menu(
+      this.dropdownOpen()
+    );
 
   }
 
   closeDropdown(): void {
 
     this.dropdownOpen.set(false);
+    this.openMenu.menu(false)
 
   }
 

@@ -5,3 +5,11 @@
   border-radius: 12px;
   overflow: hidden;
 }
+
+@media (max-width: 640px) {
+  .map {
+    height: 250px;
+    min-height: 250px;
+    border-radius: 10px;
+  }
+}

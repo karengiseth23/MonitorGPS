@@ -7,9 +7,12 @@ import {
   SimpleChanges,
   ViewChild,
   OnDestroy,
+  inject,
+  effect,
 } from '@angular/core';
 
 import * as L from 'leaflet';
+import { menuOpenService } from '../../../core/services/open-menu.service';
 
 @Component({
   selector: 'app-vehicle-map',
@@ -18,8 +21,23 @@ import * as L from 'leaflet';
   templateUrl: './vehicle-map.html',
   styleUrl: './vehicle-map.css'
 })
+
 export class VehicleMap
   implements AfterViewInit, OnChanges, OnDestroy {
+
+  constructor() {
+    effect(() => {
+      const isOpen =
+      this.openMenu.dropdownOpen();
+      this.hideMapControls(
+        isOpen
+      );
+    });
+
+  }
+  
+  readonly openMenu =
+  inject(menuOpenService);
 
   @ViewChild('map')
   private mapElement!: ElementRef<HTMLDivElement>;
@@ -96,7 +114,7 @@ export class VehicleMap
     this.tileLayer.addTo(
       this.map
     );
-
+    
     this.observeTheme();
 
     if (
@@ -517,7 +535,25 @@ export class VehicleMap
     this.tileLayer.addTo(
       this.map
     );
+   
   }
+
+  private hideMapControls(
+  hide: boolean
+): void {
+
+  const controls = document.querySelectorAll(
+    '.leaflet-control-zoom, .leaflet-control-attribution'
+  );
+
+  controls.forEach((control) => {
+
+    (control as HTMLElement).style.display =
+      hide ? 'none' : '';
+
+  });
+
+}
 
   ngOnDestroy(): void {
     if (

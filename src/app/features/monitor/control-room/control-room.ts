@@ -85,10 +85,10 @@ interface TraccarPosition {
   styleUrl: './control-room.css'
 
 })
-export class ControlRoom  implements OnDestroy{
+export class ControlRoom implements OnDestroy {
 
   ngOnDestroy(): void {
-      if (this.timeInterval) {
+    if (this.timeInterval) {
       clearInterval(this.timeInterval);
     }
   }
@@ -113,12 +113,12 @@ export class ControlRoom  implements OnDestroy{
   positionError =
     signal(false);
 
-  positionNotFound = 
+  positionNotFound =
     signal(false);
 
-  currentTime = 
+  currentTime =
     signal(Date.now());
-  
+
   private timeInterval?: ReturnType<typeof setInterval>;
 
   /* ANIMACIONES DE ACTUALIZACIÓN*/
@@ -137,11 +137,11 @@ export class ControlRoom  implements OnDestroy{
   speedLevelChanged =
     signal(false);
 
-  batteryLevelChanged = 
+  batteryLevelChanged =
     signal(false);
 
-//testSpeedLevel: 'low' | 'medium' | 'high' = 'low';
-//testBatteryLevel: 'low' | 'medium' | 'high' = 'low';
+  //testSpeedLevel: 'low' | 'medium' | 'high' = 'low';
+  //testBatteryLevel: 'low' | 'medium' | 'high' = 'low';
 
   constructor() {
     this.timeInterval = setInterval(() => {
@@ -197,7 +197,7 @@ export class ControlRoom  implements OnDestroy{
 
         next: (
           positions: TraccarPosition[]
-        ) => {      
+        ) => {
           const newPosition =
             positions.length > 0
               ? positions[0]
@@ -238,19 +238,19 @@ export class ControlRoom  implements OnDestroy{
           const batteryChanged =
             previousPosition
               ?.attributes
-              ?.['batteryLevel'] !==
+            ?.['batteryLevel'] !==
             newPosition
               .attributes
-              ?.['batteryLevel'];
+            ?.['batteryLevel'];
 
 
           const statusChanged =
             previousPosition
               ?.attributes
-              ?.['motion'] !==
+            ?.['motion'] !==
             newPosition
               .attributes
-              ?.['motion'];
+            ?.['motion'];
 
 
           /*
@@ -296,8 +296,8 @@ export class ControlRoom  implements OnDestroy{
           this.positionError.set(
             true
           );
-            this.positionNotFound.set(
-              false);
+          this.positionNotFound.set(
+            false);
         }
 
       });
@@ -337,7 +337,7 @@ export class ControlRoom  implements OnDestroy{
       Number(
         this.position()
           ?.attributes
-          ?.['batteryLevel'] ?? 0
+        ?.['batteryLevel'] ?? 0
       );
 
     if (battery <= 20) {
@@ -352,20 +352,20 @@ export class ControlRoom  implements OnDestroy{
   }
 
   getBatteryLabel(): string {
-  switch (this.getBatteryLevel()) {
-    case 'low':
-      return 'Baja';
+    switch (this.getBatteryLevel()) {
+      case 'low':
+        return 'Baja';
 
-    case 'medium':
-      return 'Media';
+      case 'medium':
+        return 'Media';
 
-    case 'high':
-      return 'Alta';
+      case 'high':
+        return 'Alta';
 
-    default:
-      return 'Desconocida';
+      default:
+        return 'Desconocida';
+    }
   }
-}
 
   getSpeedLevel(): 'low' | 'medium' | 'high' {
 
@@ -502,32 +502,32 @@ export class ControlRoom  implements OnDestroy{
   }
 
   getCategoryIcon(category: string | null | undefined): string {
-  switch (category?.toLowerCase()) {
-    case 'car':
-      return 'fi fi-rr-car';
+    switch (category?.toLowerCase()) {
+      case 'car':
+        return 'fi fi-rr-car';
 
-    case 'truck':
-      return 'fi fi-rr-truck-moving';
+      case 'truck':
+        return 'fi fi-rr-truck-moving';
 
-    case 'bus':
-      return 'fi fi-rr-bus';
+      case 'bus':
+        return 'fi fi-rr-bus';
 
-    case 'motorcycle':
-      return 'fi fi-rr-motorcycle';
+      case 'motorcycle':
+        return 'fi fi-rr-motorcycle';
 
-    case 'person':
-      return 'fi fi-rr-user';
+      case 'person':
+        return 'fi fi-rr-user';
 
-    case 'bicycle':
-      return 'fi fi-rr-biking';
+      case 'bicycle':
+        return 'fi fi-rr-biking';
 
-    case 'scooter':
-      return 'fi fi-rr-moped';
+      case 'scooter':
+        return 'fi fi-rr-moped';
 
-    default:
-      return 'fi fi-rr-car';
+      default:
+        return 'fi fi-rr-car';
+    }
   }
-}
 
   getCategoryLabel(category: string | null | undefined): string {
     switch (category?.toLowerCase()) {
@@ -539,7 +539,7 @@ export class ControlRoom  implements OnDestroy{
 
       case 'motorcycle':
         return 'Motocicleta';
-      
+
       case 'scooter':
         return 'Scooter';
 
@@ -555,124 +555,124 @@ export class ControlRoom  implements OnDestroy{
   }
 
   getRelativeTime(
-      date: string | Date | null | undefined
-    ): string {
+    date: string | Date | null | undefined
+  ): string {
 
-      if (!date) {
-        return 'Sin información';
-      }
+    if (!date) {
+      return 'Sin información';
+    }
 
-      const timestamp =
-        new Date(date).getTime();
+    const timestamp =
+      new Date(date).getTime();
 
-      if (Number.isNaN(timestamp)) {
-        return 'Sin información';
-      }
+    if (Number.isNaN(timestamp)) {
+      return 'Sin información';
+    }
 
-      const difference =
-        Math.max(
-          0,
-          Math.floor(
-            (this.currentTime() - timestamp) / 1000
-          )
-        );
-
-
-      // Segundos
-      if (difference < 60) {
-
-        return difference <= 1
-          ? 'hace 1 segundo'
-          : `hace ${difference} segundos`;
-
-      }
-
-
-      // Minutos
-      const minutes =
+    const difference =
+      Math.max(
+        0,
         Math.floor(
-          difference / 60
-        );
-
-      if (minutes < 60) {
-
-        return minutes === 1
-          ? 'hace 1 minuto'
-          : `hace ${minutes} minutos`;
-
-      }
+          (this.currentTime() - timestamp) / 1000
+        )
+      );
 
 
-      // Horas
-      const hours =
-        Math.floor(minutes / 60);
+    // Segundos
+    if (difference < 60) {
 
-      if (hours < 24) {
+      return difference <= 1
+        ? 'hace 1 segundo'
+        : `hace ${difference} segundos`;
 
-        const remainingMinutes =
-          minutes % 60;
+    }
 
-        if (hours === 1) {
 
-          if (remainingMinutes === 0) {
-            return 'hace 1 hora';
-          }
+    // Minutos
+    const minutes =
+      Math.floor(
+        difference / 60
+      );
 
-          if (remainingMinutes === 1) {
-            return 'hace 1 hora y 1 minuto';
-          }
+    if (minutes < 60) {
 
-          return `hace 1 hora y ${remainingMinutes} minutos`;
-        }
+      return minutes === 1
+        ? 'hace 1 minuto'
+        : `hace ${minutes} minutos`;
+
+    }
+
+
+    // Horas
+    const hours =
+      Math.floor(minutes / 60);
+
+    if (hours < 24) {
+
+      const remainingMinutes =
+        minutes % 60;
+
+      if (hours === 1) {
 
         if (remainingMinutes === 0) {
-          return `hace ${hours} horas`;
+          return 'hace 1 hora';
         }
 
-        return `hace ${hours} horas y ${remainingMinutes} minutos`;
+        if (remainingMinutes === 1) {
+          return 'hace 1 hora y 1 minuto';
+        }
+
+        return `hace 1 hora y ${remainingMinutes} minutos`;
       }
 
+      if (remainingMinutes === 0) {
+        return `hace ${hours} horas`;
+      }
 
-      // Días
-      const days =
-        Math.floor(
-          hours / 24
-        );
-
-      return days === 1
-        ? 'hace 1 día'
-        : `hace ${days} días`;
+      return `hace ${hours} horas y ${remainingMinutes} minutos`;
     }
-/*   testMetricLevel(
-  metric: 'speed' | 'battery',
-  level: 'low' | 'medium' | 'high'
-): void {
-  if (metric === 'speed') {
-    this.testSpeedLevel = level;
-    this.speedLevelChanged.set(false);
 
+
+    // Días
+    const days =
+      Math.floor(
+        hours / 24
+      );
+
+    return days === 1
+      ? 'hace 1 día'
+      : `hace ${days} días`;
+  }
+  /*   testMetricLevel(
+    metric: 'speed' | 'battery',
+    level: 'low' | 'medium' | 'high'
+  ): void {
+    if (metric === 'speed') {
+      this.testSpeedLevel = level;
+      this.speedLevelChanged.set(false);
+  
+      requestAnimationFrame(() => {
+        this.speedLevelChanged.set(true);
+  
+        setTimeout(() => {
+          this.speedLevelChanged.set(false);
+        }, 3000);
+      });
+  
+      return;
+    }
+  
+    this.testBatteryLevel = level;
+    this.batteryLevelChanged.set(false);
+  
     requestAnimationFrame(() => {
-      this.speedLevelChanged.set(true);
-
+      this.batteryLevelChanged.set(true);
+  
       setTimeout(() => {
-        this.speedLevelChanged.set(false);
+        this.batteryLevelChanged.set(false);
       }, 3000);
     });
-
-    return;
-  }
-
-  this.testBatteryLevel = level;
-  this.batteryLevelChanged.set(false);
-
-  requestAnimationFrame(() => {
-    this.batteryLevelChanged.set(true);
-
-    setTimeout(() => {
-      this.batteryLevelChanged.set(false);
-    }, 3000);
-  });
-} */
+  } */
 
 
 }

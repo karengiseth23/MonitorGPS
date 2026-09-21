@@ -56,8 +56,13 @@
             ></i>
 
           </button>
-
-
+          @if (dropdownOpen()) {
+            <div
+              class="dropdown-backdrop"
+              aria-hidden="true"
+              (click)="toggleDropdown()"
+            ></div>
+          }
           <!-- DROPDOWN -->
           @if (dropdownOpen()) {
 

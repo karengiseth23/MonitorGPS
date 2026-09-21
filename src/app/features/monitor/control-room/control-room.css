@@ -3,9 +3,9 @@
    ========================================= */
 
 .control-room {
-  width: min(100%, 1600px);
+  width: auto;
   margin: 72px auto;
-  padding: 40px 32px 56px;
+  padding: 40px 32px 0;
 }
 
 .control-room-header {
@@ -18,7 +18,7 @@
 
 .eyebrow,
 .section-label,
-.status-label{
+.status-label {
   display: inline-block;
   color: var(--color-primary);
   font-size: 16px;
@@ -53,6 +53,8 @@
   padding: 24px;
   border-radius: var(--radius-lg);
   background-color: var(--color-primary-soft);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border);
 }
 
 .section-heading {
@@ -85,7 +87,7 @@
   min-width: 0;
   padding: 24px;
   border: 1px solid var(--color-border);
-  border-radius:var(--radius-xl);
+  border-radius: var(--radius-xl);
   background: var(--color-surface);
   box-shadow: 0 8px 30px rgb(15 23 42 / 5%);
 }
@@ -282,7 +284,7 @@
   font-size: 19px;
 }
 
-.icon-info-center{
+.icon-info-center {
   display: grid;
   place-items: center;
   width: 100px;
@@ -341,9 +343,7 @@
   40% {
     transform: scale(1.12);
     opacity: 0.8;
-    filter: drop-shadow(
-      0 0 5px var(--status-pulse-color)
-    );
+    filter: drop-shadow(0 0 5px var(--status-pulse-color));
   }
 
   100% {
@@ -373,15 +373,15 @@
 }
 
 
-.status-error ul{
+.status-error ul {
   padding-left: 24px;
 }
 
-.status-error ul li{
-   color: var(--color-text-muted);
-   font-size: 14px;
-   line-height: 1.55;
-   list-style: disc;
+.status-error ul li {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  line-height: 1.55;
+  list-style: disc;
 }
 
 /* =========================================
@@ -396,11 +396,9 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   background:
-    radial-gradient(
-      circle at 30% 30%,
+    radial-gradient(circle at 30% 30%,
       var(--color-primary-soft),
-      transparent 35%
-    ),
+      transparent 35%),
     var(--color-surface-secondary);
   box-shadow: 0 8px 30px rgb(15 23 42 / 5%);
 }
@@ -416,15 +414,11 @@
   inset: 0;
   opacity: 0.35;
   background-image:
-    linear-gradient(
+    linear-gradient(var(--color-border) 1px,
+      transparent 1px),
+    linear-gradient(90deg,
       var(--color-border) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      var(--color-border) 1px,
-      transparent 1px
-    );
+      transparent 1px);
   background-size: 48px 48px;
 }
 
@@ -463,7 +457,7 @@
   font-size: 20px;
 }
 
-.map-placeholder-content > span {
+.map-placeholder-content>span {
   color: var(--color-text);
   font-size: 11px;
   font-weight: 700;
@@ -613,6 +607,7 @@
 }
 
 @keyframes metric-level-pulse {
+
   0%,
   100% {
     transform: scale(1);
@@ -841,10 +836,11 @@
 
 .device-status--online .status-dot {
   background-color: var(--color-success);
+  animation: status-pulse 1.8s ease-out infinite;
 }
 
 .device-status--unknown {
-  color:  var(--color-primary);
+  color: var(--color-primary);
 }
 
 .device-status--unknown .status-dot {
@@ -856,7 +852,7 @@
 }
 
 .device-status--offline .status-dot {
-  background-color: var(--color-warning);
+  background-color: var(--color-text-muted);
 }
 
 /* =========================================
@@ -915,7 +911,7 @@
   display: none;
 }
 
-.additional-information summary > span {
+.additional-information summary>span {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -990,6 +986,7 @@
    ========================================= */
 
 @media (prefers-reduced-motion: reduce) {
+
   .additional-information summary i,
   .additional-information summary::after {
     transition: none;
@@ -998,6 +995,7 @@
   .additional-information-content {
     animation: none;
   }
+
   .status-icon-error,
   .status-icon-warning {
     animation: none;
@@ -1009,6 +1007,7 @@
    ========================================= */
 
 @keyframes loading-pulse {
+
   0%,
   100% {
     opacity: 0.35;
@@ -1022,6 +1021,7 @@
 }
 
 @keyframes skeleton-pulse {
+
   0%,
   100% {
     opacity: 0.65;
@@ -1041,6 +1041,35 @@
   100% {
     opacity: 1;
     color: inherit;
+  }
+}
+
+@keyframes status-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+@keyframes status-pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.45;
+  }
+
+  70% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
   }
 }
 
@@ -1064,6 +1093,7 @@
    ========================================= */
 
 @media (prefers-reduced-motion: reduce) {
+
   .metric,
   .connection-status,
   .metric-content strong,
@@ -1115,8 +1145,8 @@
 
 @media (max-width: 640px) {
   .control-room {
-    padding:0;
-    margin:100px auto;
+    padding: 0;
+    margin: 100px auto;
   }
 
   .control-room-header {
@@ -1132,9 +1162,9 @@
   }
 
   .monitoring-area {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 
   .vehicle-map-container {
@@ -1145,7 +1175,7 @@
     order: 2;
   }
 
- 
+
   .metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1158,6 +1188,13 @@
 
   .detail-row strong {
     text-align: left;
+  }
+
+  .vehicle-selection {
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
   }
 
 }

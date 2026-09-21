@@ -158,7 +158,14 @@
                {{ getCategoryLabel(selectedDevice()?.category) }}
             </span>
 
-            <span
+            <h2 id="vehicle-status-title">
+              {{ selectedDevice()?.name }}
+            </h2>
+
+            <span class="vehicle-id">
+              ID {{ selectedDevice()?.id }}
+            </span>
+                        <span
               class="device-status"
               [class.device-status--online]="selectedDevice()?.status === 'online'"
               [class.device-status--offline]="selectedDevice()?.status === 'offline'"
@@ -166,14 +173,6 @@
             >
               <span class="status-dot" aria-hidden="true"></span>
               {{ getStatusLabel(selectedDevice()?.status) }}
-            </span>
-
-            <h2 id="vehicle-status-title">
-              {{ selectedDevice()?.name }}
-            </h2>
-
-            <span class="vehicle-id">
-              ID {{ selectedDevice()?.id }}
             </span>
           </div>
         </div>
@@ -222,7 +221,7 @@
 
             <div class="metric-content">
               <span class="metric-label">
-                VELOCIDAD - {{ getSpeedLabel() }}
+                Velocidad- {{ getSpeedLabel() }}
               </span>
 
               <strong class="metric-value" [class.data-updated]="speedUpdated()">
@@ -254,7 +253,7 @@
 
             <div class="metric-content">
               <span class="metric-label">
-                BATERÍA - {{ getBatteryLabel() }}
+                Batería - {{ getBatteryLabel() }}
               </span>
 
               <strong>
@@ -268,10 +267,10 @@
         <div class="detail-row"> 
           <strong>
             Última actualización: 
-            <span class="relative-time">
-              {{ getRelativeTime(position()?.fixTime) }}
-            </span>
           </strong> 
+          <span class="relative-time">
+            {{ getRelativeTime(position()?.fixTime) }}
+          </span>
         </div>
         <div class="detail-row">
           <strong>

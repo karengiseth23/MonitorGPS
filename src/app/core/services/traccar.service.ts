@@ -113,12 +113,6 @@ export class TraccarService {
     ).pipe(
 
       tap(user => {
-
-        console.log(
-          'TRACCAR >>> SESSION:',
-          user
-        );
-
         this.currentUserSubject.next(
           user
         );
@@ -145,11 +139,6 @@ export class TraccarService {
     ).pipe(
 
       tap(() => {
-
-        console.log(
-          'TRACCAR >>> LOGOUT'
-        );
-
         this.currentUserSubject.next(
           null
         );

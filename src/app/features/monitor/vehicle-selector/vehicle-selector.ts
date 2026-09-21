@@ -4,7 +4,8 @@ import {
   OnInit,
   ViewChild,
   inject,
-  output
+  output,
+  ChangeDetectorRef
 } from '@angular/core';
 
 import { TraccarService } from '../../../core/services/traccar.service';
@@ -103,6 +104,9 @@ export class VehicleSelector implements OnInit {
 
   readonly deviceSelected =
     output<TraccarDevice>();
+  
+  private readonly cdr =
+    inject(ChangeDetectorRef);
 
 
   /*
@@ -112,11 +116,6 @@ export class VehicleSelector implements OnInit {
    */
 
   ngOnInit(): void {
-
-    console.log(
-      'VEHÍCULO SELECTOR INICIADO'
-    );
-
     this.loadDevices();
 
   }
@@ -130,15 +129,11 @@ export class VehicleSelector implements OnInit {
 
   loadDevices(): void {
 
-    console.log(
-      'INICIANDO GET DEVICES'
-    );
-
-
     this.isLoading = true;
 
     this.hasError = false;
 
+    this.cdr.detectChanges();
 
     this.traccarService
       .getDevices()
@@ -147,12 +142,6 @@ export class VehicleSelector implements OnInit {
         next: (
           devices: TraccarDevice[]
         ) => {
-
-          console.log(
-            'RESPUESTA DE TRACCAR:',
-            devices
-          );
-
 
           /*
            * Filtrar vehículos deshabilitados.
@@ -199,37 +188,21 @@ export class VehicleSelector implements OnInit {
            */
 
           this.isLoading = false;
-
-
-          console.log(
-            'ESTADO FINAL:',
-            {
-              devices: this.devices,
-              selectedDeviceId:
-                this.selectedDeviceId,
-              isLoading:
-                this.isLoading
-            }
-          );
-
+          this.cdr.detectChanges();
         },
 
 
         error: (error) => {
 
-          console.error(
-            'ERROR GET DEVICES:',
-            error
-          );
-
-
           this.devices = [];
 
           this.selectedDeviceId = null;
+            
+          this.hasError = true;
 
           this.isLoading = false;
 
-          this.hasError = true;
+          this.cdr.detectChanges();
 
         }
 

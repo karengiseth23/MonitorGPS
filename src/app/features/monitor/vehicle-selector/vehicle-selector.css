@@ -461,67 +461,114 @@ kbd {
 }
 
 
-/* =========================================
-   SKELETON
-   ========================================= */
-
 .selector-skeleton {
+  width: 100%;
+  min-height: 194px;
+
   display: flex;
   align-items: center;
-  gap: 16px;
-  width: 100%;
-  min-height: 76px;
+
+  gap: 40px;
+
+  padding: 32px 32px;
+
+  border-radius: 20px;
+
+  background: var(--color-surface);
+
+  overflow: hidden;
 }
+
+
+/* =========================================
+   ICONO
+   ========================================= */
 
 .skeleton-icon {
-  width: 48px;
-  height: 48px;
-  flex: 0 0 48px;
-  border-radius: var(--radius-lg);
-  background: #c9ced9;
-  animation:
-    skeleton-pulse 1.5s ease-in-out infinite;
+  flex: 0 0 80px;
+
+  width: 80px;
+  height: 80px;
+
+  border-radius: 50%;
+
+  background: var(--color-border);
+
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
 }
 
+
+/* =========================================
+   CONTENIDO
+   ========================================= */
+
 .skeleton-lines {
+  flex: 1;
+
   display: flex;
   flex-direction: column;
-  gap: 9px;
-  flex: 1;
+
+  gap: 12px;
 }
+
 
 .skeleton-lines span {
   display: block;
-  height: 11px;
-  border-radius: var(--radius-sm);
-  background: #c9ced9;
-  animation:
-    skeleton-pulse 1.5s ease-in-out infinite;
+
+  height: 16px;
+
+  border-radius: 8px;
+
+  background: var(--color-border);
+
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
 }
+
+
+/* TÍTULO */
 
 .skeleton-lines span:first-child {
-  width: 120px;
+  width: 220px;
+  height: 18px;
 }
+
+
+/* TEXTO */
 
 .skeleton-lines span:last-child {
-  width: 80px;
+  width: 340px;
+  max-width: 70%;
+  height: 14px;
 }
+
+
+/* =========================================
+   CONTROL / BOTÓN
+   ========================================= */
 
 .skeleton-control {
-  width: 150px;
-  height: 46px;
-  border-radius: var(--radius-md);
-  background: #c9ced9;
-  animation:
-    skeleton-pulse 1.5s ease-in-out infinite;
+  flex: 0 0 114px;
+
+  width: 114px;
+  height: 52px;
+
+  border-radius: 12px;
+
+  background: var(--color-border);
+
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
 }
 
+
+/* =========================================
+   ANIMACIÓN
+   ========================================= */
 
 @keyframes skeleton-pulse {
 
   0%,
   100% {
-    opacity: 0.75;
+    opacity: 0.55;
   }
 
   50% {
@@ -530,6 +577,67 @@ kbd {
 
 }
 
+
+/* =========================================
+   REDUCIR MOVIMIENTO
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .skeleton-icon,
+  .skeleton-lines span,
+  .skeleton-control {
+    animation: none;
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 640px) {
+
+  .selector-skeleton {
+    min-height: 220px;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 20px;
+
+    padding: 24px;
+  }
+
+
+  .skeleton-lines {
+    width: 100%;
+
+    align-items: center;
+  }
+
+
+  .skeleton-lines span:first-child {
+    width: 180px;
+  }
+
+
+  .skeleton-lines span:last-child {
+    width: 75%;
+    max-width: 280px;
+  }
+
+
+  .skeleton-control {
+    flex: 0 0 48px;
+
+    width: 120px;
+    height: 48px;
+  }
+
+}
 
 /* =========================================
    ERROR / EMPTY
@@ -565,7 +673,25 @@ kbd {
   color:
     var(--color-danger);
 }
+.icon-info-center{
+  display: grid;
+  place-items: center;
+  width: 100px;
+  height: 100px;
+  font-size: 64px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
 
+.status-icon-info {
+  color: var(--color-info);
+  margin: auto auto;
+}
+
+.status-icon-error {
+  color: var(--color-danger);
+  margin: auto auto;
+}
 
 .state-content {
   min-width: 0;
@@ -670,6 +796,11 @@ kbd {
 
 @media (max-width: 640px) {
 
+  .selector-error,
+  .selector-empty{
+    display: inline;
+  }
+
   .select-wrapper {
     gap: 12px;
   }
@@ -678,11 +809,7 @@ kbd {
     height: 44px;
     flex-basis: 44px;
   }
-
-  .option-status {
-    display: none;
-  }
-
+  
   .combobox-footer {
     display: none;
   }
